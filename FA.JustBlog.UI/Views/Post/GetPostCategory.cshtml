@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@inject FA.JustBlog.Core.Repository.UnitOfWork.IUnitOfWork _unitOfWork
+
+@using FA.JustBlog.Core.Common;
+
+
+<header class="masthead" style="background-image: url('../assets/img/post-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>JustBlog</h1>
+                    <span class="subheading">JustBlog Theme by TuanTV27</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="contatiner">
+    <div class="row">
+        <div class="px-4 px-lg-5 col-7">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-11">
+                    <h1>All Posts By CategoryName: @ViewBag.CategoryName</h1>
+                    <hr />
+                    @foreach (var item in ViewBag.PostData)
+                    {
+                        <!-- Post preview-->
+                        <div class="post-preview">
+                            <a href="@Url.Action("PostDetail", "Post", new{item.PostId})">
+                                <h2 class="post-title">@item.Title</h2>
+                                <h3 style="-webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;" class="post-subtitle">
+                                    @item.ShortDescription
+                                </h3>
+                            </a>
+                            <p class="post-meta mb-2">
+                                Posted by
+                                <a href="#!">TuanTV27</a>
+                                on @item.PostOn
+                                with Rate: @item.Rate by @item.ViewCount view(s)
+                            </p>
+                            <span>Category:</span> <a class="fw-bold" href="@Url.Action("GetPostCategory", "Post", new {category = _unitOfWork.CategoryRepository.Find(item.CategoryId).CategoryName})">@_unitOfWork.CategoryRepository.Find(item.CategoryId).CategoryName</a>
+                            <br>
+                            @foreach (var i in _unitOfWork.TagRepository.GetTagByPost(item.PostId))
+                            {
+                                <a href="@Url.Action("GetPostTag", "Post", new {tag = @i.TagName})" class="text-decoration-underline text-white bg-dark">@i.TagName</a>
+                            }
+                        </div>
+                        <!-- Divider-->
+                        <hr class="my-4" />
+                    }
+                    <!-- Pager-->
+                    @{
+                        Func<int?, string> generateUrl = (int? _pagenumber) =>
+                        {
+                            return Url.ActionLink("Index", null, new { page = _pagenumber });
+                        };
+                        var datapaging = new
+                        {
+                            currentPage = ViewBag.pageNumber,
+                            countPages = ViewBag.totalPages,
+                            generateUrl = generateUrl
+                        };
+                    }
+                    <partial name="_Paging" model="@datapaging" />
+
+                </div>
+            </div>
+        </div>
+        @Html.Partial("~/Views/Shared/_AboutMe.cshtml")
+
+
+

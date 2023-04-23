@@ -1,0 +1,14 @@
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\bin\Debug\net6.0\FA.JustBlog.Core.deps.json
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\bin\Debug\net6.0\FA.JustBlog.Core.runtimeconfig.json
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\bin\Debug\net6.0\FA.JustBlog.Core.dll
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\bin\Debug\net6.0\FA.JustBlog.Core.pdb
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\FA.JustBlog.Core.csproj.AssemblyReference.cache
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\FA.JustBlog.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\FA.JustBlog.Core.AssemblyInfoInputs.cache
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\FA.JustBlog.Core.AssemblyInfo.cs
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\FA.JustBlog.Core.csproj.CoreCompileInputs.cache
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\FA.JustBlog.Core.dll
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\refint\FA.JustBlog.Core.dll
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\FA.JustBlog.Core.pdb
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\FA.JustBlog.Core.genruntimeconfig.cache
+C:\Users\tuann\OneDrive\Desktop\FA.JustBlog\FA.JustBlog.Core\obj\Debug\net6.0\ref\FA.JustBlog.Core.dll

@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@inject FA.JustBlog.Core.Repository.UnitOfWork.IUnitOfWork _unitOfWork
+@using FA.JustBlog.Core.Models
+
+
+<div class="vh-100">
+    <div class="container my-5">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">List Comments</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Data)
+                            {
+                                <tr>
+                                    <td>@item.CommentId</td>
+                                    <td>@item.CommentHeader</td>
+                                    <td class="text-center w-25">
+                                        <a asp-action="CommentDetail" asp-controller="Comment" asp-route-id="@item.CommentId" class="btn btn-warning"><i class="fas fa-eye"></i></a>
+                                        <a onclick="return confirm('Are you sure to delete ?');" asp-action="Delete" asp-controller="Comment" asp-route-id="@item.CommentId" class="btn btn-danger" type="button"><i class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <!-- Pager-->
+                    @{
+                        Func<int?, string> generateUrl = (int? _pagenumber) =>
+                        {
+                            return Url.ActionLink("Index", null, new { page = _pagenumber });
+                        };
+                        var datapaging = new
+                        {
+                            currentPage = ViewBag.pageNumber,
+                            countPages = ViewBag.totalPages,
+                            generateUrl = generateUrl
+                        };
+                    }
+                    <partial name="_Paging" model="@datapaging" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

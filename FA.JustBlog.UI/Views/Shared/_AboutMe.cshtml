@@ -1,0 +1,80 @@
+﻿@inject FA.JustBlog.Core.Repository.UnitOfWork.IUnitOfWork _unitOfWork
+
+
+<div class="col-5">
+    <div class="about-me p-4 m-5 shadow bg-body-tertiary rounded">
+        <div>
+            <img width="100%" height="auto" src="~/assets/img/about-bg.jpg" />
+        </div>
+        <h2 class="pt-5">About Me</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p>
+    </div>
+    <div class="p-4 m-5 shadow bg-body-tertiary rounded">
+        <h2>Most View Posts</h2>
+        @foreach (var item in _unitOfWork.PostRepository.GetMostViewedPost(5))
+        {
+            <!-- Post preview-->
+            <div class="post-preview">
+                <a href="@Url.Action("PostDetail", "Post", new{item.PostId})">
+                    <h3 class="post-title">@item.Title</h3>
+                    <h4 style="-webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;" class="post-subtitle">
+                        @item.ShortDescription
+                    </h4>
+                </a>
+                <p class="post-meta mb-2">
+                    Posted by
+                    <a href="#!">TuanTV27</a>
+                    on @item.PostOn
+                    with Rate: @item.Rate by @item.ViewCount view(s)
+                </p>
+                <span>Category:</span> <a class="fw-bold" href="@Url.Action("GetPostCategory", "Post", new {category = _unitOfWork.CategoryRepository.Find(item.CategoryId).CategoryName})">@_unitOfWork.CategoryRepository.Find(item.CategoryId).CategoryName</a>
+                <br>
+                @foreach (var i in _unitOfWork.TagRepository.GetTagByPost(item.PostId))
+                {
+                    <a href="@Url.Action("GetPostTag", "Post", new {tag = @i.TagName})" class="text-decoration-underline text-white bg-dark">@i.TagName</a>
+                }
+            </div>
+            <!-- Divider-->
+            <hr class="my-4" />
+        }
+    </div>
+
+    <div class="p-4 m-5 shadow bg-body-tertiary rounded">
+        <h2>Latest Posts</h2>
+        @foreach (var item in _unitOfWork.PostRepository.GetLatestPost(5))
+        {
+            <!-- Post preview-->
+            <div class="post-preview">
+                <a href="@Url.Action("PostDetail", "Post", new{item.PostId})">
+                    <h3 class="post-title">@item.Title</h3>
+                    <h4 style="-webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;" class="post-subtitle">
+                        @item.ShortDescription
+                    </h4>
+                </a>
+                <p class="post-meta mb-2">
+                    Posted by
+                    <a href="#!">TuanTV27</a>
+                    on @item.PostOn
+                    with Rate: @item.Rate by @item.ViewCount view(s)
+                </p>
+                <span>Category:</span> <a class="fw-bold" href="@Url.Action("GetPostCategory", "Post", new {category = _unitOfWork.CategoryRepository.Find(item.CategoryId).CategoryName})">@_unitOfWork.CategoryRepository.Find(item.CategoryId).CategoryName</a>
+                <br>
+                @foreach (var i in _unitOfWork.TagRepository.GetTagByPost(item.PostId))
+                {
+                    <a href="@Url.Action("GetPostTag", "Post", new {tag = @i.TagName})" class="text-decoration-underline text-white bg-dark">@i.TagName</a>
+                }
+            </div>
+            <!-- Divider-->
+            <hr class="my-4" />
+        }
+    </div>
+    <div class="p-4 m-5 shadow bg-body-tertiary rounded">
+        <h1>Tags</h1>
+        <div>
+            @foreach (var item in _unitOfWork.TagRepository.GetAll())
+            {
+                <a href="@Url.Action("GetPostTag", "Post", new {tag = @item.TagName})" class="text-decoration-underline text-white bg-dark">@item.TagName</a>
+            }
+        </div>
+    </div>
+</div>

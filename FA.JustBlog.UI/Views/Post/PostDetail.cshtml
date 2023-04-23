@@ -1,0 +1,134 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using FA.JustBlog.UI.Areas.Identity.Data
+@{
+    ViewData["Title"] = "PostDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@inject FA.JustBlog.Core.Repository.UnitOfWork.IUnitOfWork _unitOfWork
+@inject SignInManager<FAJustBlogUIUser> SignInManager
+
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('../assets/img/post-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1>@ViewBag.PostDetail.Title</h1>
+                    <h2 class="subheading">@ViewBag.PostDetail.ShortDescription</h2>
+                    <span class="meta">
+                        Posted by
+                        <a href="#!">TuanTv27</a>
+                        on @ViewBag.PostDetail.PostOn
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <p>
+                    @ViewBag.PostDetail.PostContent
+                </p>
+            </div>
+        </div>
+    </div>
+</article>
+<hr />
+<div class="row my-5">
+    <section class="ms-5 border shadow bg-body-tertiary rounded-3 col-md-6" style="background-color: white;">
+        <div class="container my-5 py-2">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12 col-lg-10">
+                    <div class="card text-dark">
+                        @foreach(var item in _unitOfWork.CommentRepository.GetCommentsForPost(ViewBag.PostDetail.PostId))
+                        {
+                            if(item  != null)
+                            {
+                                <div class="card-body p-4">
+                                    <h4 class="mb-0">Recent comments</h4>
+                                    <div class="d-flex flex-start mt-4">
+                                        <img class="rounded-circle shadow-1-strong me-3"
+                                             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" alt="avatar" width="60"
+                                             height="60" />
+                                        <div>
+                                            <h6 class="fw-bold mb-1 text-info">@item.Name</h6>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <p class="mb-0 mt-2">
+                                                    @item.CommentTime
+                                                </p>
+                                            </div>
+                                            <p class="mb-0">
+                                                @item.CommentText
+                                            </p>
+                                            <div class="small d-flex justify-content-start">
+                                                <a href="#" class="d-flex align-items-center me-3">
+                                                    <i class="far fa-thumbs-up me-2 text-primary"></i>
+                                                    <p class="text-primary">Like</p>
+                                                </a>
+                                                <a href="#" class="d-flex align-items-center me-3">
+                                                    <i class="far fa-comment-dots me-2 text-primary"></i>
+                                                    <p class="text-primary">Comment</p>
+                                                </a>
+                                                <a href="#" class="d-flex align-items-center me-3">
+                                                    <i class="fas fa-share me-2 text-primary"></i>
+                                                    <p class="text-primary">Share</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-0" />
+                            }
+                            else
+                            {
+                                <h1>No Comment</h1>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="col-md-5">
+        <div class="ms-5 border border-1 p-5 shadow bg-body-tertiary rounded-3">
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                <form asp-action="CommentPost" asp-controller="Post">
+                    <input type="hidden" name="postId" value="@ViewBag.PostDetail.PostId" />
+                    <div class="mb-3">
+                        <input placeholder="Enter Title" name="CommentHeader" type="text" class="form-control rounded" id="comment-header">
+                    </div>
+                    <div class="mb-3">
+                        <textarea name="CommentText" placeholder="Write Comment Here..." class="form-control rounded"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success rounded">Post Comment</button>
+                </form>
+            }
+            else
+            {
+                <form asp-action="CommentPost" asp-controller="Post">
+                    <input type="hidden" name="postId" value="@ViewBag.PostDetail.PostId" />
+                    <div class="mb-3">
+                        <input placeholder="Enter Your Name" name="Name" type="text" class="form-control rounded-3" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <input placeholder="Enter Email" name="Email" type="email" class="form-control rounded" id="comment-header">
+                    </div>
+                    <div class="mb-3">
+                        <input placeholder="Enter Title" name="CommentHeader" type="text" class="form-control rounded" id="comment-header">
+                    </div>
+                    <div class="mb-3">
+                        <textarea name="CommentText" placeholder="Write Comment Here..." class="form-control rounded"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success rounded">Post Comment</button>
+                </form>
+            }
+        
+        </div>
+      
+    </div>
+</div>

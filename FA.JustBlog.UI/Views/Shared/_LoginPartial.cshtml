@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using FA.JustBlog.UI.Areas.Identity.Data
+
+@inject SignInManager<FAJustBlogUIUser> SignInManager
+@inject UserManager<FAJustBlogUIUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-white px-lg-3 py-3 py-lg-4" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline px-lg-3 py-lg-2 h-100" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button style="font-size: 12px; font-weight: 800" id="logout" type="submit" class="nav-link btn btn-link text-white h-100 text-uppercase p-0 m-0 border-0">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-white px-lg-3 py-3 py-lg-4" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

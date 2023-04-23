@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var list = ViewBag.Category as SelectList;
+}
+@inject FA.JustBlog.Core.Repository.UnitOfWork.IUnitOfWork _unitOfWork
+@using FA.JustBlog.Core.Common;
+
+
+<div class="vh-100">
+    <div class="container my-5">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary pe-3">Most View Posts</h6>
+                <div class="dropdown">
+                    <a class="font-weight-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        View
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="@Url.Action("Index", "Post", new {area = "Admin"})">All Post</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("LatestPost", "Post", new {area = "Admin"})">Latest Post</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("MostViewPost", "Post", new {area = "Admin"})">Most View Post</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("PublishedPosts", "Post", new {area = "Admin"})">Published Posts</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("UnPublishedPosts", "Post", new {area = "Admin"})">Un Published Posts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>View</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.PostData)
+                            {
+                                <tr>
+                                    <td>@item.PostId</td>
+                                    <td>@item.Title</td>
+                                    <td>@item.ViewCount</td>
+                                    <td class="text-center w-25">
+                                        <a asp-action="PostAdminDetail" asp-controller="Post" asp-route-id="@item.PostId" class="btn btn-warning"><i class="fas fa-eye"></i></a>
+                                        <a asp-action="Edit" asp-controller="Post" asp-route-id="@item.PostId" class="btn btn-success mx-2" type="button"><i class="far fa-edit"></i></a>
+                                        <a onclick="return confirm('Are you sure to detele');" asp-action="Delete" asp-controller="Post" asp-route-id="@item.PostId" class="btn btn-danger" type="button"><i class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <!-- Modal -->
+                    @model PostModelView
+                    <div class="modal fade" id="addPost" tabindex="-1" aria-labelledby="addPost" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="addPost">Add New Post</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form asp-action="Create">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Title" class="control-label"></label>
+                                            <input asp-for="Title" class="form-control" />
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="ShortDescription" class="control-label"></label>
+                                            <input asp-for="ShortDescription" class="form-control" />
+                                            <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="PostContent" class="control-label"></label>
+                                            <input asp-for="PostContent" class="form-control" />
+                                            <span asp-validation-for="PostContent" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" asp-for="Published" /> @Html.DisplayNameFor(model => model.Published)
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="CategoryId" class="control-label"></label>
+                                            <select asp-for="CategoryId" class="form-control" asp-items="list"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Create" class="btn btn-primary" />
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
